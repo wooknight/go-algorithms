@@ -44,11 +44,22 @@ func bubbleSort(slice []int) {
 }
 
 func main() {
-	slice := makeRandomSlice(100000, 100000)
-	fmt.Println("Initial slice of random numbers:")
-	printSlice(slice, 10)
+	// Get the number of items and maximum item value.
+	var numItems, max int
+	fmt.Printf("# Items: ")
+	fmt.Scanln(&numItems)
+	fmt.Printf("Max: ")
+	fmt.Scanln(&max)
+
+	// Make and display an unsorted slice.
+	slice := makeRandomSlice(numItems, max)
+	printSlice(slice, 40)
+	fmt.Println()
+
+	// Sort and display the result.
 	bubbleSort(slice)
-	fmt.Println("Sorted slice:")
-	printSlice(slice, 10)
+	printSlice(slice, 40)
+
+	// Verify that it's sorted.
 	checkSorted(slice)
 }

@@ -1,22 +1,66 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 func main() {
-	data := []int{1, 12, 3, 4, 5, 6, 7, 8, 9, 10, 11, 2, 13, 14, 15, 16, 17, 18, 19, 20}
-	for i, j := 0, len(data)-1; i < j; i, j = i+1, j-1 {
-		data[i], data[j] = data[j], data[i]
-	}
-	fmt.Println(data)
-	quicksort(data, 0, len(data)-1)
-	fmt.Println(data)
+	// Get the number of items and maximum item value.
+	var numItems, max int
+	fmt.Printf("# Items: ")
+	fmt.Scanln(&numItems)
+	fmt.Printf("Max: ")
+	fmt.Scanln(&max)
+
+	// Make and display the unsorted slice.
+	slice := makeRandomSlice(numItems, max)
+	printSlice(slice, 40)
+	fmt.Println()
+
+	// Sort and display the result.
+	quicksort(slice)
+	printSlice(slice, 40)
+
+	// Verify that it's sorted.
+	checkSorted(slice)
 }
 
-func quicksort(data []int, low, high int) {
+func makeRandomSlice(numItems, max int) []int {
+	data := make([]int, numItems)
+	for i := 0; i < numItems; i++ {
+		data[i] = rand.Intn(max)
+	}
+	return data
+}
+
+func checkSorted(slice []int) {
+	for i := 1; i < len(slice); i++ {
+		if slice[i-1] > slice[i] {
+			fmt.Println("*** Not sorted!")
+			return
+		}
+	}
+	fmt.Println("Sorted!")
+}
+
+func quicksort(data []int) {
+	InnerQuicksort(data, 0, len(data)-1)
+}
+
+func printSlice(slice []int, numItems int) {
+	if len(slice) <= numItems {
+		fmt.Println(slice)
+	} else {
+		fmt.Println(slice[:numItems])
+	}
+}
+
+func InnerQuicksort(data []int, low, high int) {
 	if low < high {
 		pivot := partition(data, low, high)
-		quicksort(data, low, pivot-1)
-		quicksort(data, pivot+1, high)
+		InnerQuicksort(data, low, pivot-1)
+		InnerQuicksort(data, pivot+1, high)
 	}
 }
 
